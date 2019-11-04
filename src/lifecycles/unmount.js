@@ -2,6 +2,7 @@ import { UNMOUNTING, NOT_MOUNTED, MOUNTED, SKIP_BECAUSE_BROKEN } from '../applic
 import { handleAppError, transformErr } from '../applications/app-errors.js';
 import { reasonableTime } from '../applications/timeouts.js';
 import { getProps } from './prop.helpers.js';
+import { resolveAll } from '../utils/resolve-all.js';
 
 export function toUnmountPromise(appOrParcel, hardFail = false) {
   return Promise.resolve().then(() => {
@@ -15,7 +16,7 @@ export function toUnmountPromise(appOrParcel, hardFail = false) {
 
     let parcelError;
 
-    return Promise.all(unmountChildrenParcels)
+    return resolveAll(unmountChildrenParcels)
       .then(
         unmountAppOrParcel,
         parcelError => {

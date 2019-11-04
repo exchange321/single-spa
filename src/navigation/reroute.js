@@ -7,6 +7,7 @@ import { toUnmountPromise } from '../lifecycles/unmount.js';
 import { getMountedApps, getAppsToLoad, getAppsToUnmount, getAppsToMount } from '../applications/apps.js';
 import { callCapturedEventListeners } from './navigation-events.js';
 import { getAppsToUnload, toUnloadPromise } from '../lifecycles/unload.js';
+import { resolveAll } from '../utils/resolve-all.js';
 
 let appChangeUnderway = false, peopleWaitingOnAppChange = [];
 
@@ -67,7 +68,7 @@ export function reroute(pendingPromises = [], eventArguments) {
         wasNoOp = false;
       }
 
-      const unmountAllPromise = Promise.all(allUnmountPromises);
+      const unmountAllPromise = resolveAll(allUnmountPromises);
 
       const appsToLoad = getAppsToLoad();
 
